@@ -19,8 +19,8 @@
 	{/each}
 
 	{#if sudahSubmit}
-		<p class="hasil" class:benar={jawabanDipilih === soal.jawabanBenar} class:salah={jawabanDipilih !== soal.jawabanBenar}>
-			{jawabanDipilih === soal.jawabanBenar ? '✅ Benar!' : `❌ Salah. Jawaban benar: ${soal.jawabanBenar}`}
+		<p class="hasil" class:benar={jawabanDipilih === soal.jawaban_benar} class:salah={jawabanDipilih !== soal.jawaban_benar}>
+			{jawabanDipilih === soal.jawaban_benar ? '✅ Benar!' : `❌ Salah. Jawaban benar: ${soal.jawaban_benar}`}
 		</p>
 	{/if}
 </div>

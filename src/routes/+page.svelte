@@ -1,6 +1,8 @@
 <script>
-	import { daftarSoal } from '$lib/soal.js';
 	import Soal from '$lib/Soal.svelte';
+
+	let { data } = $props();
+	let daftarSoal = $derived(data.daftarSoal);
 
 	let nomorSoal = $state(0);
 	let jawabanDipilih = $state(null);
@@ -28,7 +30,7 @@
 
 	function submitJawaban() {
 		sudahSubmit = true;
-		if (jawabanDipilih === soalSekarang.jawabanBenar) {
+		if (jawabanDipilih === soalSekarang.jawaban_benar) {
 			skor += 1;
 		}
 	}
