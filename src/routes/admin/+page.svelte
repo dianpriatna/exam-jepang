@@ -49,6 +49,7 @@
 
 <main>
 	<button onclick={logout} class="logout-btn">Logout</button>
+	<a href="/admin/hasil">Lihat Rekap Hasil →</a>
 	<h1>Tambah Soal Baru</h1>
 
 	<form onsubmit={(e) => { e.preventDefault(); simpanSoal(); }}>
