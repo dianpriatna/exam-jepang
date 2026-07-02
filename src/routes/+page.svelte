@@ -1,5 +1,6 @@
 <script>
 	import Soal from '$lib/Soal.svelte';
+	import { supabase } from '$lib/supabase.js';
 
 	let { data } = $props();
 	let daftarSoal = $derived(data.daftarSoal);
@@ -12,6 +13,9 @@
 	let sisaWaktu = $state(30); // detik per soal
 
 	let soalSekarang = $derived(daftarSoal[nomorSoal]);
+
+	let namaSiswa = $state('');
+	let ujianDimulai = $state(false);
 
 	// Efek timer: jalan tiap detik selama ujian belum selesai & belum submit
 	$effect(() => {
@@ -35,22 +39,46 @@
 		}
 	}
 
-	function soalBerikutnya() {
-		if (nomorSoal < daftarSoal.length - 1) {
-			nomorSoal += 1;
-			jawabanDipilih = null;
-			sudahSubmit = false;
-			sisaWaktu = 30; // reset timer buat soal berikutnya
-		} else {
-			selesai = true;
-		}
-	}
+	async function soalBerikutnya() {
+    if (nomorSoal < daftarSoal.length - 1) {
+        nomorSoal += 1;
+        jawabanDipilih = null;
+        sudahSubmit = false;
+        sisaWaktu = 30;
+    } else {
+        selesai = true;
+        await simpanHasil();
+    }
+}
+
+async function simpanHasil() {
+    const { error } = await supabase.from('hasil_ujian').insert({
+        nama_siswa: namaSiswa,
+        skor: skor,
+        total_soal: daftarSoal.length
+    });
+
+    if (error) {
+        console.error('Gagal simpan hasil:', error);
+    }
+}
 </script>
 
 <main>
-	<h1>Latihan Bahasa Jepang 🇯🇵</h1>
+    <h1>Latihan Bahasa Jepang 🇯🇵</h1>
 
-	{#if !selesai}
+    {#if !ujianDimulai}
+        <div class="soal">
+            <label>
+                Nama Kamu
+                <input type="text" bind:value={namaSiswa} placeholder="Masukkan nama..." />
+            </label>
+            <button onclick={() => ujianDimulai = true} disabled={!namaSiswa.trim()}>
+                Mulai Ujian
+            </button>
+        </div>
+    {:else if !selesai}
+    
     <p class="progress">Soal {nomorSoal + 1} dari {daftarSoal.length}</p>
 
     <div class="progress-bar-luar">
@@ -145,5 +173,22 @@
 
 .waktu-kritis {
     color: red;
+}
+
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-top: 4px;
+    box-sizing: border-box;
 }
 </style>
