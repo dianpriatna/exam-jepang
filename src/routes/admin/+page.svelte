@@ -40,9 +40,15 @@
 			jawabanBenar = '';
 		}
 	}
+
+	async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = '/login';
+}
 </script>
 
 <main>
+	<button onclick={logout} class="logout-btn">Logout</button>
 	<h1>Tambah Soal Baru</h1>
 
 	<form onsubmit={(e) => { e.preventDefault(); simpanSoal(); }}>
@@ -131,4 +137,9 @@
 	.status {
 		font-weight: bold;
 	}
+
+	.logout-btn {
+    background: #666;
+    margin-bottom: 16px;
+}
 </style>
