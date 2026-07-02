@@ -1,5 +1,6 @@
 <script>
 	import { daftarSoal } from '$lib/soal.js';
+	import Soal from '$lib/Soal.svelte';
 
 	let nomorSoal = $state(0);
 	let jawabanDipilih = $state(null);
@@ -33,35 +34,17 @@
 	{#if !selesai}
 		<p class="progress">Soal {nomorSoal + 1} dari {daftarSoal.length}</p>
 
-		<div class="soal">
-			<p class="pertanyaan">{soalSekarang.pertanyaan}</p>
+		<Soal soal={soalSekarang} bind:jawabanDipilih {sudahSubmit} />
 
-			{#each soalSekarang.pilihan as pilihan}
-				<label class="pilihan">
-					<input
-						type="radio"
-						name="jawaban"
-						value={pilihan}
-						bind:group={jawabanDipilih}
-						disabled={sudahSubmit}
-					/>
-					{pilihan}
-				</label>
-			{/each}
-
-			{#if !sudahSubmit}
-				<button onclick={submitJawaban} disabled={!jawabanDipilih}>
-					Jawab
-				</button>
-			{:else}
-				<p class="hasil" class:benar={jawabanDipilih === soalSekarang.jawabanBenar} class:salah={jawabanDipilih !== soalSekarang.jawabanBenar}>
-					{jawabanDipilih === soalSekarang.jawabanBenar ? '✅ Benar!' : `❌ Salah. Jawaban benar: ${soalSekarang.jawabanBenar}`}
-				</p>
-				<button onclick={soalBerikutnya}>
-					{nomorSoal < daftarSoal.length - 1 ? 'Soal Berikutnya' : 'Lihat Hasil'}
-				</button>
-			{/if}
-		</div>
+		{#if !sudahSubmit}
+			<button onclick={submitJawaban} disabled={!jawabanDipilih}>
+				Jawab
+			</button>
+		{:else}
+			<button onclick={soalBerikutnya}>
+				{nomorSoal < daftarSoal.length - 1 ? 'Soal Berikutnya' : 'Lihat Hasil'}
+			</button>
+		{/if}
 	{:else}
 		<div class="soal">
 			<h2>Ujian Selesai! 🎉</h2>
@@ -90,18 +73,6 @@
 		margin-top: 16px;
 	}
 
-	.pertanyaan {
-		font-size: 1.2rem;
-		margin-bottom: 16px;
-	}
-
-	.pilihan {
-		display: block;
-		text-align: left;
-		padding: 8px;
-		margin: 4px 0;
-	}
-
 	button {
 		margin-top: 16px;
 		padding: 10px 24px;
@@ -117,14 +88,6 @@
 		background: #ccc;
 		cursor: not-allowed;
 	}
-
-	.hasil {
-		margin-top: 16px;
-		font-weight: bold;
-	}
-
-	.benar { color: green; }
-	.salah { color: red; }
 
 	.skor-akhir {
 		font-size: 1.5rem;
