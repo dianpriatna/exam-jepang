@@ -1,28 +1,16 @@
 <script>
-	let { soal, jawabanDipilih = $bindable(), sudahSubmit } = $props();
+	let { soal, jawabanDipilih = $bindable() } = $props();
 </script>
 
 <div class="soal">
 	<p class="pertanyaan">{soal.pertanyaan}</p>
 
 	{#each soal.pilihan as pilihan}
-		<label class="pilihan">
-			<input
-				type="radio"
-				name="jawaban"
-				value={pilihan}
-				bind:group={jawabanDipilih}
-				disabled={sudahSubmit}
-			/>
+		<label class="pilihan" class:terpilih={jawabanDipilih === pilihan}>
+			<input type="radio" name="jawaban" value={pilihan} bind:group={jawabanDipilih} />
 			{pilihan}
 		</label>
 	{/each}
-
-	{#if sudahSubmit}
-		<p class="hasil" class:benar={jawabanDipilih === soal.jawaban_benar} class:salah={jawabanDipilih !== soal.jawaban_benar}>
-			{jawabanDipilih === soal.jawaban_benar ? '✅ Benar!' : `❌ Salah. Jawaban benar: ${soal.jawaban_benar}`}
-		</p>
-	{/if}
 </div>
 
 <style>
@@ -41,15 +29,14 @@
 	.pilihan {
 		display: block;
 		text-align: left;
-		padding: 8px;
+		padding: 10px;
 		margin: 4px 0;
+		border-radius: 8px;
+		border: 1px solid #eee;
 	}
 
-	.hasil {
-		margin-top: 16px;
-		font-weight: bold;
+	.terpilih {
+		background: #fff0eb;
+		border-color: #ff3e00;
 	}
-
-	.benar { color: green; }
-	.salah { color: red; }
 </style>
