@@ -8,3 +8,5 @@
  * @property {string} answer - Jawaban benar, harus sama persis dengan salah satu isi choices
  * @property {string | null} explanation - Penjelasan singkat kenapa jawaban itu benar. null jika belum ada pembahasan.
  */
+
+export {};
