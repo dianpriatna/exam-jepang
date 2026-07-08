@@ -32,3 +32,5 @@
  * @property {number} durationMinutes
  *   Batas waktu pengerjaan ujian ini dalam menit, dihitung sejak siswa memulai sesi ujian.
  */
+
+export {};
