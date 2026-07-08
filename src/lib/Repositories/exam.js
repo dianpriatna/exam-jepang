@@ -15,15 +15,25 @@
  */
 
 import { dummyExams } from "$lib/data/exams.js";
+import { isValidExam } from "$lib/validation/exam.js";
 
 /** @typedef {import('../types/exam.js').Exam} Exam */
 
 /**
  * Mengambil seluruh data ujian.
- * Belum melakukan filter, sorting, mapping, validation, atau cloning apapun.
+ * Belum melakukan filter, sorting, mapping, atau cloning apapun.
  *
  * @returns {Exam[]}
+ * @throws {Error} Jika data Exam tidak valid.
  */
 export function getAllExams() {
+  for (const exam of dummyExams) {
+    if (!isValidExam(exam)) {
+      const examId =
+        exam && typeof exam === "object" && "id" in exam ? exam.id : "unknown";
+      throw new Error(`Invalid Exam data found for id: ${examId}`);
+    }
+  }
+
   return dummyExams;
 }
