@@ -12,6 +12,7 @@
 	let selesai = $state(false);
 	let sisaWaktu = $state(WAKTU_TOTAL);
 
+	/** @type {(string | null)[]} */
 	let jawabanSiswa = $state([]);
 	let nomorSoalAktif = $state(0);
 	let skor = $state(0);
@@ -41,6 +42,7 @@
 		ujianDimulai = true;
 	}
 
+	/** @param {number} index */
 	function pergiKeSoal(index) {
 		nomorSoalAktif = index;
 	}
@@ -86,6 +88,7 @@
 		}
 	}
 
+	/** @param {number} detik */
 	function formatWaktu(detik) {
 		const menit = Math.floor(detik / 60);
 		const sisaDetik = detik % 60;
@@ -142,10 +145,6 @@
 						<button class="btn-submit" onclick={klikSubmit}>Submit Jawaban</button>
 					{/if}
 				</div>
-
-				<!-- {#if nomorSoalAktif === daftarSoal.length - 1}
-					<button class="btn-submit-alt" onclick={klikSubmit}>Submit Jawaban Sekarang</button>
-				{/if} -->
 			</div>
 		</div>
 
@@ -290,13 +289,8 @@
 		gap: 8px;
 	}
 
-	.btn-submit, .btn-submit-alt {
+	.btn-submit {
 		background: #16a34a;
-	}
-
-	.btn-submit-alt {
-		width: 100%;
-		margin-top: 12px;
 	}
 
 	.skor-akhir {
